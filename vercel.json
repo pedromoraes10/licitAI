@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/pncp/:path*",
+      "destination": "https://pncp.gov.br/api/consulta/v1/:path*"
+    },
+    {
+      "source": "/api/cnpj/:path*",
+      "destination": "https://brasilapi.com.br/api/cnpj/v1/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
