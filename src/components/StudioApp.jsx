@@ -3,7 +3,7 @@ import {
   Search, Filter, Sparkles, Shield, AlertTriangle, ArrowRight, 
   Send, Bot, FileText, CheckCircle2, DollarSign, Calculator, 
   Layers, MessageSquare, Download, Copy, ExternalLink, Zap, 
-  Clock, MapPin, Building, ChevronRight, RefreshCw, X, Award, Server
+  Clock, MapPin, Building, ChevronRight, RefreshCw, X, Award, Server, Lock
 } from 'lucide-react';
 
 import confetti from 'canvas-confetti';
@@ -19,7 +19,88 @@ import { WhatsAppHub } from './WhatsAppHub';
 import { WatchdogOps } from './WatchdogOps';
 import { GuiaExecucaoModal } from './GuiaExecucaoModal';
 
-export function StudioApp({ initialTender, empresaAtiva, onTrocarEmpresa, onOpenCheckout }) {
+function ProPaywallGate({ titulo, descricao, onOpenCheckout }) {
+  return (
+    <div className="glass-panel" style={{
+      padding: '50px 30px',
+      textAlign: 'center',
+      maxWidth: '680px',
+      margin: '40px auto',
+      borderRadius: 'var(--radius-xl)',
+      border: '1px solid rgba(245, 158, 11, 0.35)',
+      boxShadow: '0 0 40px rgba(245, 158, 11, 0.08)'
+    }}>
+      <div style={{
+        width: '64px',
+        height: '64px',
+        borderRadius: '50%',
+        background: 'rgba(245, 158, 11, 0.15)',
+        border: '1px solid rgba(245, 158, 11, 0.4)',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'var(--accent-gold-light)',
+        marginBottom: '20px'
+      }}>
+        <Lock size={30} />
+      </div>
+
+      <div style={{ marginBottom: '14px' }}>
+        <span className="badge badge-purple" style={{ fontSize: '0.8rem', padding: '6px 14px' }}>
+          🔒 Recurso Exclusivo Plano Pro
+        </span>
+      </div>
+
+      <h2 style={{ fontSize: '1.65rem', fontWeight: 800, marginBottom: '12px', lineHeight: 1.3 }}>
+        {titulo}
+      </h2>
+
+      <p style={{ color: 'var(--text-secondary)', fontSize: '0.96rem', lineHeight: 1.6, marginBottom: '28px', maxWidth: '580px', margin: '0 auto 28px' }}>
+        {descricao}
+      </p>
+
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '24px',
+        marginBottom: '32px',
+        fontSize: '0.86rem',
+        color: 'var(--text-secondary)',
+        flexWrap: 'wrap'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <CheckCircle2 size={16} color="var(--success-light)" /> Sem fidelidade
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <CheckCircle2 size={16} color="var(--success-light)" /> Pix com ativação imediata
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <CheckCircle2 size={16} color="var(--success-light)" /> Cartão em até 12x
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', flexWrap: 'wrap' }}>
+        <button
+          onClick={() => onOpenCheckout({ nome: 'Plano Pro Copilot', preco: '32,90', ciclo: 'anual' })}
+          className="btn btn-gold btn-lg"
+          style={{ padding: '14px 28px', fontSize: '1rem', fontWeight: 800 }}
+        >
+          <Award size={18} /> Desbloquear Acesso por R$ 32,90/mês
+        </button>
+
+        <button
+          onClick={() => onOpenCheckout({ nome: 'Plano Mensal', preco: '49,90', ciclo: 'mensal' })}
+          className="btn btn-secondary btn-lg"
+          style={{ padding: '14px 22px', fontSize: '0.92rem' }}
+        >
+          Plano Mensal (R$ 49,90/mês)
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export function StudioApp({ initialTender, empresaAtiva, onTrocarEmpresa, onOpenCheckout, isSubscribed }) {
 
 
   // Aba ativa: 'radar', 'raio-x', 'copilot', 'impugnacao', 'calculadora', 'kanban', 'whatsapp', 'watchdog'
@@ -352,13 +433,12 @@ export function StudioApp({ initialTender, empresaAtiva, onTrocarEmpresa, onOpen
           { id: 'radar', icon: <Search size={16} />, label: 'Radar PNCP (Ao Vivo)' },
           { id: 'raio-x', icon: <Zap size={16} />, label: 'Raio-X 3.0 do Edital' },
           { id: 'copilot', icon: <Bot size={16} />, label: 'Copilot "Pergunte ao Edital"' },
-          { id: 'impugnacao', icon: <Shield size={16} />, label: 'Gerador de Impugnações' },
+          { id: 'impugnacao', icon: <Shield size={16} />, label: 'Gerador de Impugnações', proOnly: true },
           { id: 'calculadora', icon: <Calculator size={16} />, label: 'Simulador de Margem & BDI' },
-          { id: 'kanban', icon: <Layers size={16} />, label: 'Pipeline de Licitações' },
-          { id: 'whatsapp', icon: <MessageSquare size={16} />, label: 'WhatsApp 2-Way (IA)' },
-          { id: 'watchdog', icon: <Server size={16} />, label: 'Watchdogs & Cloud Ops' }
+          { id: 'kanban', icon: <Layers size={16} />, label: 'Pipeline de Licitações', proOnly: true },
+          { id: 'whatsapp', icon: <MessageSquare size={16} />, label: 'WhatsApp 2-Way (IA)', proOnly: true },
+          { id: 'watchdog', icon: <Server size={16} />, label: 'Watchdogs & Cloud Ops', proOnly: true }
         ].map(tab => (
-
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
@@ -381,6 +461,20 @@ export function StudioApp({ initialTender, empresaAtiva, onTrocarEmpresa, onOpen
           >
             {tab.icon}
             {tab.label}
+            {tab.proOnly && !isSubscribed && (
+              <span style={{
+                fontSize: '0.65rem',
+                padding: '2px 6px',
+                background: 'rgba(245, 158, 11, 0.18)',
+                color: 'var(--accent-gold-light)',
+                border: '1px solid rgba(245, 158, 11, 0.35)',
+                borderRadius: '4px',
+                fontWeight: 800,
+                letterSpacing: '0.04em'
+              }}>
+                PRO 🔒
+              </span>
+            )}
           </button>
         ))}
       </div>
@@ -390,6 +484,55 @@ export function StudioApp({ initialTender, empresaAtiva, onTrocarEmpresa, onOpen
       {/* 1. ABA RADAR PNCP (BUSCA E FEED AO VIVO) */}
       {activeTab === 'radar' && (
         <div>
+          {/* Banner de Demonstração (Não Pagante) */}
+          {!isSubscribed && (
+            <div style={{
+              background: 'linear-gradient(90deg, rgba(239, 68, 68, 0.12), rgba(245, 158, 11, 0.12))',
+              border: '1px solid rgba(245, 158, 11, 0.35)',
+              borderRadius: 'var(--radius-lg)',
+              padding: '16px 22px',
+              marginBottom: '20px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '16px'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                <div style={{
+                  width: '42px',
+                  height: '42px',
+                  borderRadius: '50%',
+                  background: 'rgba(245, 158, 11, 0.2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'var(--accent-gold-light)',
+                  flexShrink: 0
+                }}>
+                  <Lock size={20} />
+                </div>
+                <div>
+                  <div style={{ fontWeight: 800, color: '#fff', fontSize: '0.98rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>Radar PNCP em Modo Demonstração (1 Edital Liberado para Teste)</span>
+                    <span className="badge badge-purple" style={{ fontSize: '0.72rem' }}>Freemium</span>
+                  </div>
+                  <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginTop: '3px' }}>
+                    O feed em tempo real de 400+ editais diários do PNCP, inteligência preditiva, kit de CNDs e alertas WhatsApp é restrito a assinantes.
+                  </div>
+                </div>
+              </div>
+
+              <button
+                onClick={() => onOpenCheckout({ nome: 'Plano Pro Copilot', preco: '32,90', ciclo: 'anual' })}
+                className="btn btn-gold btn-sm"
+                style={{ padding: '10px 18px', fontWeight: 800, whiteSpace: 'nowrap' }}
+              >
+                <Award size={15} /> Desbloquear Radar Completo (R$ 32,90/mês)
+              </button>
+            </div>
+          )}
+
           {/* Barra de Filtros */}
           <div className="glass-panel" style={{ padding: '20px', marginBottom: '24px' }}>
             <div style={{
@@ -532,8 +675,104 @@ export function StudioApp({ initialTender, empresaAtiva, onTrocarEmpresa, onOpen
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '20px' }}>
               {((modoRadar === 'meu_cnpj' && empresaAtiva?.editaisCompativeis && empresaAtiva.editaisCompativeis.length > 0)
                 ? empresaAtiva.editaisCompativeis
-                : tenders).map((tender) => {
+                : tenders).map((tender, index) => {
                 const isSelected = selectedTender?.id === tender.id;
+                const isLocked = !isSubscribed && index > 0;
+
+                if (isLocked) {
+                  return (
+                    <div
+                      key={tender.id}
+                      className="glass-panel"
+                      onClick={() => onOpenCheckout({ nome: 'Plano Pro Copilot', preco: '32,90', ciclo: 'anual' })}
+                      style={{
+                        padding: '24px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        border: '1px solid rgba(239, 68, 68, 0.25)',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        cursor: 'pointer',
+                        minHeight: '360px'
+                      }}
+                    >
+                      {/* Conteúdo Desfocado no Fundo */}
+                      <div style={{
+                        filter: 'blur(5px)',
+                        opacity: 0.28,
+                        userSelect: 'none',
+                        pointerEvents: 'none'
+                      }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                          <span className="badge badge-purple">{tender.modalidadeNome}</span>
+                          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{tender.numeroCompra}</span>
+                        </div>
+
+                        <h4 style={{ fontSize: '1.05rem', lineHeight: 1.4, marginBottom: '12px' }}>
+                          {tender.objetoCompra.length > 120 ? tender.objetoCompra.slice(0, 120) + '...' : tender.objetoCompra}
+                        </h4>
+
+                        <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>
+                          {tender.orgaoEntidade.razaoSocial} ({tender.unidadeOrgao.ufSigla})
+                        </div>
+
+                        <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '12px', borderRadius: 'var(--radius-sm)' }}>
+                          <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>VALOR ESTIMADO</div>
+                          <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--accent-gold-light)' }}>
+                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(tender.valorTotalEstimado)}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Paywall Overlay */}
+                      <div style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'rgba(7, 10, 18, 0.88)',
+                        backdropFilter: 'blur(4px)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '24px',
+                        textAlign: 'center',
+                        zIndex: 10
+                      }}>
+                        <div style={{
+                          width: '46px',
+                          height: '46px',
+                          borderRadius: '50%',
+                          background: 'rgba(245, 158, 11, 0.15)',
+                          border: '1px solid rgba(245, 158, 11, 0.4)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: 'var(--accent-gold-light)',
+                          marginBottom: '12px'
+                        }}>
+                          <Lock size={22} />
+                        </div>
+                        <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#fff', marginBottom: '6px' }}>
+                          Edital Exclusivo Pro
+                        </h4>
+                        <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '16px', maxWidth: '270px', lineHeight: 1.4 }}>
+                          Desbloqueie a análise de IA, kit de CNDs e impugnações em tempo real.
+                        </p>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onOpenCheckout({ nome: 'Plano Pro Copilot', preco: '32,90', ciclo: 'anual' });
+                          }}
+                          className="btn btn-gold btn-sm"
+                          style={{ width: '100%', maxWidth: '240px', justifyContent: 'center', fontWeight: 700, padding: '10px 14px' }}
+                        >
+                          🔓 Desbloquear por R$ 32,90/mês
+                        </button>
+                      </div>
+                    </div>
+                  );
+                }
 
                 return (
                   <div
@@ -551,6 +790,14 @@ export function StudioApp({ initialTender, empresaAtiva, onTrocarEmpresa, onOpen
                   >
                     {/* Header do Card */}
                     <div>
+                      {!isSubscribed && index === 0 && (
+                        <div style={{ marginBottom: '10px' }}>
+                          <span className="badge badge-success" style={{ fontSize: '0.74rem', padding: '4px 8px' }}>
+                            ✨ Amostra Gratuita Liberada (Teste todas as ações)
+                          </span>
+                        </div>
+                      )}
+
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                         <span className="badge badge-purple">{tender.modalidadeNome}</span>
                         <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
@@ -998,8 +1245,15 @@ export function StudioApp({ initialTender, empresaAtiva, onTrocarEmpresa, onOpen
       )}
 
       {/* 4. ABA GERADOR DE IMPUGNAÇÕES E DECLARAÇÕES */}
-      {activeTab === 'impugnacao' && selectedTender && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '24px' }}>
+      {activeTab === 'impugnacao' && (
+        !isSubscribed ? (
+          <ProPaywallGate
+            titulo="Gerador Autônomo de Impugnações (Lei 14.133/21)"
+            descricao="Elabore peças jurídicas fundamentadas no Art. 164 da Nova Lei de Licitações e súmulas do TCU em menos de 10 segundos para derrubar exigências abusivas e cláusulas ilegais."
+            onOpenCheckout={onOpenCheckout}
+          />
+        ) : selectedTender ? (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '24px' }}>
           {/* Painel Esquerdo: Diagnóstico Jurídico */}
           <div className="glass-panel" style={{ padding: '24px' }}>
             <h3 style={{ fontSize: '1.25rem', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -1079,7 +1333,8 @@ export function StudioApp({ initialTender, empresaAtiva, onTrocarEmpresa, onOpen
             />
           </div>
         </div>
-      )}
+      ) : null
+    )}
 
       {/* 5. ABA SIMULADOR DE MARGEM & BDI */}
       {activeTab === 'calculadora' && (
@@ -1216,7 +1471,14 @@ export function StudioApp({ initialTender, empresaAtiva, onTrocarEmpresa, onOpen
 
       {/* 6. ABA PIPELINE DE LICITAÇÕES (KANBAN) */}
       {activeTab === 'kanban' && (
-        <div>
+        !isSubscribed ? (
+          <ProPaywallGate
+            titulo="Pipeline Kanban de Licitações Inteligente"
+            descricao="Gerencie todas as suas oportunidades desde a descoberta até a homologação com alertas de prazos fatais, controle de certidões e histórico de lances."
+            onOpenCheckout={onOpenCheckout}
+          />
+        ) : (
+          <div>
           {empresaAtiva && (
             <div style={{
               display: 'flex',
@@ -1352,7 +1614,8 @@ export function StudioApp({ initialTender, empresaAtiva, onTrocarEmpresa, onOpen
             ))}
           </div>
         </div>
-      )}
+      )
+    )}
 
 
       {/* 7. ABA WHATSAPP 2-WAY AUTÔNOMO */}
@@ -1366,7 +1629,15 @@ export function StudioApp({ initialTender, empresaAtiva, onTrocarEmpresa, onOpen
 
       {/* 8. ABA WATCHDOGS & CLOUD OPS */}
       {activeTab === 'watchdog' && (
-        <WatchdogOps />
+        !isSubscribed ? (
+          <ProPaywallGate
+            titulo="Watchdogs & Cloud Ops em Tempo Real"
+            descricao="Monitore robôs de varredura contínua do PNCP, consumo de APIs governamentais e alertas de integridade em servidores dedicados."
+            onOpenCheckout={onOpenCheckout}
+          />
+        ) : (
+          <WatchdogOps />
+        )
       )}
 
       {/* MODAL GUIA PASSO A PASSO DE EXECUÇÃO */}
@@ -1375,6 +1646,8 @@ export function StudioApp({ initialTender, empresaAtiva, onTrocarEmpresa, onOpen
         onClose={() => setGuiaModalAberto(false)}
         edital={selectedTender}
         empresaAtiva={empresaAtiva}
+        isSubscribed={isSubscribed}
+        onOpenCheckout={onOpenCheckout}
         onSimularMargem={() => {
           setGuiaModalAberto(false);
           setActiveTab('calculadora');

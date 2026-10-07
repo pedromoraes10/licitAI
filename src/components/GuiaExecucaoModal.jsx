@@ -10,7 +10,7 @@ import {
   gerarPropostaComercialFormatada 
 } from '../services/aiEngine';
 
-export function GuiaExecucaoModal({ isOpen, onClose, edital, empresaAtiva, onSimularMargem }) {
+export function GuiaExecucaoModal({ isOpen, onClose, edital, empresaAtiva, onSimularMargem, isSubscribed, onOpenCheckout }) {
   const [passoAtivo, setPassoAtivo] = useState(1);
   const [copiouUasg, setCopiouUasg] = useState(false);
   const [declaracaoBaixada, setDeclaracaoBaixada] = useState(false);
@@ -129,6 +129,37 @@ export function GuiaExecucaoModal({ isOpen, onClose, edital, empresaAtiva, onSim
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.86rem', marginTop: '4px' }}>
             Todas as ferramentas necessárias para habilitar sua empresa, precificar, cadastrar e vencer a disputa.
           </p>
+
+          {!isSubscribed && (
+            <div style={{
+              background: 'linear-gradient(90deg, rgba(245, 158, 11, 0.15), rgba(99, 102, 241, 0.15))',
+              border: '1px solid rgba(245, 158, 11, 0.4)',
+              borderRadius: 'var(--radius-md)',
+              padding: '12px 18px',
+              marginTop: '14px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: '12px',
+              flexWrap: 'wrap'
+            }}>
+              <div style={{ fontSize: '0.84rem', color: '#fff' }}>
+                ⭐ <strong>Amostra Gratuita Liberada:</strong> Você pode testar e baixar os documentos desta licitação. Para gerar peças e propostas ilimitadas em todos os pregões do Brasil, assine o Pro.
+              </div>
+              <button
+                onClick={() => {
+                  onClose();
+                  if (onOpenCheckout) {
+                    onOpenCheckout({ nome: 'Plano Pro Copilot', preco: '32,90', ciclo: 'anual' });
+                  }
+                }}
+                className="btn btn-gold btn-sm"
+                style={{ padding: '6px 14px', fontSize: '0.8rem', whiteSpace: 'nowrap', fontWeight: 700 }}
+              >
+                Assinar Pro (R$ 32,90/mês)
+              </button>
+            </div>
+          )}
         </div>
 
         {/* 6 Ações Tabs */}

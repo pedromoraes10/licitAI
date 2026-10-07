@@ -1,7 +1,4 @@
-import React from 'react';
-import { Sparkles, Terminal, Rocket, Shield, Globe, Award, ChevronRight } from 'lucide-react';
-
-export function Navbar({ currentView, setView, onOpenCheckout, onOpenPaymentSettings }) {
+export function Navbar({ currentView, setView, onOpenCheckout, onOpenPaymentSettings, isSubscribed }) {
   return (
     <header style={{
       position: 'sticky',
@@ -126,7 +123,11 @@ export function Navbar({ currentView, setView, onOpenCheckout, onOpenPaymentSett
             </button>
           )}
 
-          {currentView === 'landing' ? (
+          {isSubscribed ? (
+            <span className="badge badge-success" style={{ padding: '8px 14px', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Award size={14} /> Assinante Pro Ativo
+            </span>
+          ) : currentView === 'landing' ? (
             <>
               <button 
                 onClick={() => setView('studio')}

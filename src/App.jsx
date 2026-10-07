@@ -14,8 +14,17 @@ export function App() {
   const [paymentSettingsModalOpen, setPaymentSettingsModalOpen] = useState(false);
   const [planoCheckout, setPlanoCheckout] = useState(null);
 
+  // Controle de Assinatura (Travado para não pagantes)
+  const [isSubscribed, setIsSubscribed] = useState(() => {
+    try {
+      return localStorage.getItem('licitai_is_subscribed') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
   const handleOpenCheckout = (plano) => {
-    setPlanoCheckout(plano || { nome: 'Plano Pro Copilot', preco: '49,90', ciclo: 'anual' });
+    setPlanoCheckout(plano || { nome: 'Plano Pro Copilot', preco: '32,90', ciclo: 'anual' });
     setCheckoutModalOpen(true);
   };
 
@@ -46,6 +55,8 @@ export function App() {
   };
 
   const handleCheckoutSuccess = (dadosCliente) => {
+    setIsSubscribed(true);
+    localStorage.setItem('licitai_is_subscribed', 'true');
     setCheckoutModalOpen(false);
     setCurrentView('studio');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -59,6 +70,7 @@ export function App() {
         setView={setCurrentView}
         onOpenCheckout={handleOpenCheckout}
         onOpenPaymentSettings={() => setPaymentSettingsModalOpen(true)}
+        isSubscribed={isSubscribed}
       />
 
       {/* Conteúdo Principal */}
@@ -78,6 +90,7 @@ export function App() {
             empresaAtiva={empresaAtiva}
             onTrocarEmpresa={handleTrocarEmpresa}
             onOpenCheckout={handleOpenCheckout}
+            isSubscribed={isSubscribed}
           />
         )}
       </main>
