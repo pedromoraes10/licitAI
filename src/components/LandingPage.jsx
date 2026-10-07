@@ -57,25 +57,25 @@ export function LandingPage({
     },
     {
       id: 'pro',
-      nome: 'Pro Copilot (Mais Escolhido)',
+      nome: 'Pro (Licitações & Pregões)',
       precoMensal: '49,90',
       precoAnual: '32,90',
       totalAnual: '394,80',
       economia: 'Economize 34% no plano anual (R$ 204/ano OFF)',
       periodo: '/mês',
-      descricao: 'O motor neural completo para PMEs vencerem concorrências públicas e pregões eletrônicos de qualquer porte com inteligência artificial.',
+      descricao: 'A solução completa para empresas disputarem pregões e concorrências de qualquer porte com auditoria jurídica avançada e alertas diários.',
       destaque: true,
       badge: 'MAIS ESCOLHIDO • 34% OFF NO ANUAL',
       recursos: [
         'Acesso irrestrito a TODOS os Pregões e Concorrências do PNCP',
         'Até 5 nichos de mercado e palavras-chave simultâneas',
-        'Raio-X de Editais Ilimitado (lê 200+ páginas em 3 segundos)',
+        'Auditoria e Análise Técnica Ilimitada de Editais',
         'Auditor de Pegadinhas e Cláusulas Abusivas no Edital',
-        'Copilot Neural "Pergunte ao Edital" em tempo real',
+        'Assistente de Dúvidas "Pergunte ao Edital" em tempo real',
         'Gerador de Petições de Impugnação (Lei 14.133/21) com 1 clique',
         'Gerador de Minutas de Recurso Administrativo pós-disputa',
         'Simulador de Margem Líquida & Trava de Stop-Loss',
-        'WhatsApp 2-Way Autônomo com envio diário matinal'
+        'Alertas matinais diários das melhores oportunidades no WhatsApp'
       ]
     }
   ];
@@ -118,7 +118,7 @@ export function LandingPage({
           <div className="glass-pill" style={{ padding: '6px 16px', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
             <span className="pulse-dot pulse-dot-green"></span>
             <span style={{ fontSize: '0.84rem', color: 'var(--text-primary)', fontWeight: 600 }}>
-              Nova Lei 14.133/21 • O Primeiro Copilot Autônomo de Licitações do Brasil
+              Nova Lei 14.133/21 • Inteligência em Contratações Públicas para MEI, ME e EPP
             </span>
           </div>
         </div>
@@ -132,7 +132,7 @@ export function LandingPage({
           margin: '0 auto 24px',
           letterSpacing: '-0.03em'
         }}>
-          Disseque editais de 200 páginas em <span className="gradient-text">3 segundos</span> e venda milhões para o governo.
+          Encontre licitações lucrativas, audite riscos do edital e <span className="gradient-text">venda para o governo</span> com segurança.
         </h1>
 
         {/* Subtitle */}
@@ -143,8 +143,7 @@ export function LandingPage({
           margin: '0 auto 40px',
           lineHeight: 1.6
         }}>
-          Pare de perder semanas lendo PDFs burocráticos. O <strong style={{ color: '#fff' }}>LicitAI</strong> audita pegadinhas, 
-          calcula sua margem de lucro real e gera minutas de impugnação com 1 clique antes de qualquer concorrente.
+          Elimine a burocracia de editais de 150 páginas. O <strong style={{ color: '#fff' }}>LicitAI</strong> verifica requisitos de habilitação, audita pegadinhas e cláusulas abusivas, calcula sua margem real e notifica oportunidades do seu nicho no WhatsApp.
         </p>
 
         {/* CTAs */}
@@ -161,7 +160,7 @@ export function LandingPage({
             className="btn btn-gold btn-lg"
             style={{ fontSize: '1.08rem', padding: '16px 36px' }}
           >
-            <Zap size={20} /> Começar Test-Drive de 7 Dias
+            <Zap size={20} /> Conhecer Planos a partir de R$ 29,90
           </button>
 
           <button 
@@ -169,7 +168,7 @@ export function LandingPage({
             className="btn btn-secondary btn-lg"
             style={{ fontSize: '1.08rem', padding: '16px 32px' }}
           >
-            <Bot size={20} /> Explorar Plataforma ao Vivo <ArrowRight size={18} />
+            <Search size={18} /> Explorar Radar de Licitações <ArrowRight size={18} />
           </button>
         </div>
 
@@ -236,14 +235,14 @@ export function LandingPage({
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                 <span className="badge badge-primary">
-                  <Sparkles size={13} /> Demonstração Interativa ao Vivo
+                  <FileText size={13} /> Demonstração da Auditoria de Edital
                 </span>
                 <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-                  Selecione seu nicho e veja o motor de IA em ação:
+                  Selecione seu segmento e veja a análise técnica:
                 </span>
               </div>
               <h2 style={{ fontSize: '1.6rem' }}>
-                Raio-X de Edital 3.0 com Inteligência Artificial
+                Auditoria de Edital & Conformidade Legal (Lei 14.133/21)
               </h2>
             </div>
 
@@ -251,7 +250,7 @@ export function LandingPage({
               onClick={() => onSelectTender(editalDemo)}
               className="btn btn-outline-primary btn-sm"
             >
-              Abrir Edital no Studio Completo <ArrowRight size={15} />
+              Abrir Edital no Radar Completo <ArrowRight size={15} />
             </button>
           </div>
 
@@ -449,7 +448,7 @@ export function LandingPage({
                   className="btn btn-primary"
                   style={{ width: '100%', padding: '14px' }}
                 >
-                  <Bot size={18} /> Conversar com este Edital no Copilot
+                  <FileText size={18} /> Abrir Análise Completa no Radar
                 </button>
               </div>
             </div>
@@ -483,15 +482,15 @@ export function LandingPage({
             fontSize: '0.92rem'
           }}>
             <div>Recurso ou Capacidade</div>
-            <div style={{ color: 'var(--text-muted)' }}>Plataformas Antigas (Anos 2000)</div>
-            <div style={{ color: 'var(--primary-light)' }}>LicitAI (Inteligência 2026)</div>
+            <div style={{ color: 'var(--text-muted)' }}>Plataformas Tradicionais</div>
+            <div style={{ color: 'var(--primary-light)' }}>LicitAI (Plataforma Especializada)</div>
           </div>
 
           {[
             {
               item: "Análise do PDF do Edital",
               velho: "Manda 1 link e você lê 150 páginas sozinho",
-              licitai: "Dossiê Executivo dissecado em 3 segundos com IA"
+              licitai: "Dossiê Executivo estruturado com semáforo de habilitação"
             },
             {
               item: "Detecção de Pegadinhas e Riscos",
@@ -501,7 +500,7 @@ export function LandingPage({
             {
               item: "Tira-Dúvidas sobre o Edital",
               velho: "Contratar advogado ou esperar pedido de esclarecimento",
-              licitai: "Copilot Neural: pergunte qualquer coisa e receba a página exata"
+              licitai: "Assistente de Dúvidas: localize exigências com a página exata"
             },
             {
               item: "Impugnação de Edital Restritivo",

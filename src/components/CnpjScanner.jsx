@@ -58,14 +58,14 @@ export function CnpjScanner({ onSelectTender, onOpenCheckout, onCompanyScanned, 
       <div style={{ textAlign: 'center', marginBottom: '28px' }}>
         <div style={{ display: 'inline-flex', marginBottom: '10px' }}>
           <span className="badge badge-primary">
-            <Sparkles size={13} /> Onboarding Neural Instantâneo
+            <Search size={13} /> Consulta Oficial por CNPJ (Receita & PNCP)
           </span>
         </div>
         <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', fontWeight: 800, marginBottom: '8px' }}>
           Descubra quanto o Governo tem para comprar de <span className="gradient-text">sua empresa</span> hoje
         </h2>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '680px', margin: '0 auto' }}>
-          Digite seu CNPJ. Nossa IA consulta seus CNAEs na Receita Federal e cruza em tempo real com todos os editais abertos no PNCP.
+          Digite o CNPJ da sua empresa. O sistema consulta suas atividades registradas na Receita Federal e cruza em tempo real com editais e compras diretas abertos no PNCP.
         </p>
       </div>
 
@@ -114,7 +114,7 @@ export function CnpjScanner({ onSelectTender, onOpenCheckout, onCompanyScanned, 
             </>
           ) : (
             <>
-              <Search size={18} /> Escanear Oportunidades com IA
+              <Search size={18} /> Consultar Oportunidades
             </>
           )}
         </button>
@@ -220,7 +220,7 @@ export function CnpjScanner({ onSelectTender, onOpenCheckout, onCompanyScanned, 
               </button>
 
               <button
-                onClick={() => onOpenCheckout({ nome: 'Plano Pro Copilot', preco: '197,00' })}
+                onClick={() => onOpenCheckout({ nome: 'Pro (Licitações & Pregões)', preco: '32,90', ciclo: 'anual' })}
                 className="btn btn-gold"
               >
                 <Zap size={16} /> Ativar Alertas no WhatsApp

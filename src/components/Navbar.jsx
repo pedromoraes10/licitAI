@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Globe, Terminal, Award, Rocket } from 'lucide-react';
+import { ShieldCheck, Globe, Search, Award, CheckCircle2 } from 'lucide-react';
 
 export function Navbar({ currentView, setView, onOpenCheckout, onOpenPaymentSettings, isSubscribed }) {
   return (
@@ -7,7 +7,7 @@ export function Navbar({ currentView, setView, onOpenCheckout, onOpenPaymentSett
       position: 'sticky',
       top: 0,
       zIndex: 1000,
-      backgroundColor: 'rgba(7, 10, 18, 0.85)',
+      backgroundColor: 'rgba(10, 15, 29, 0.92)',
       backdropFilter: 'blur(16px)',
       borderBottom: '1px solid var(--border-subtle)',
       padding: '12px 24px'
@@ -36,27 +36,27 @@ export function Navbar({ currentView, setView, onOpenCheckout, onOpenPaymentSett
               width: '38px',
               height: '38px',
               borderRadius: '10px',
-              background: 'var(--primary-gradient)',
+              background: 'linear-gradient(135deg, #0284c7 0%, #2563eb 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 0 20px var(--primary-glow)'
+              boxShadow: '0 4px 14px rgba(37, 99, 235, 0.35)'
             }}>
-              <Sparkles size={22} color="#ffffff" />
+              <ShieldCheck size={22} color="#ffffff" />
             </div>
             <div>
               <div style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1 }}>
-                Licit<span className="gradient-text">AI</span>
+                Licit<span style={{ color: 'var(--primary-light)' }}>AI</span>
               </div>
-              <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 600 }}>
-                Autonomous Tender Intelligence
+              <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 700 }}>
+                Inteligência em Licitações
               </div>
             </div>
           </div>
 
           <div className="glass-pill" style={{ display: 'none', mdDisplay: 'inline-flex' }}>
             <span className="pulse-dot pulse-dot-green"></span>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>PNCP Ao Vivo (Lei 14.133/21)</span>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>PNCP Oficial (Lei 14.133/21)</span>
           </div>
         </div>
 
@@ -76,7 +76,7 @@ export function Navbar({ currentView, setView, onOpenCheckout, onOpenPaymentSett
               padding: '8px 18px',
               borderRadius: 'var(--radius-full)',
               border: 'none',
-              background: currentView === 'landing' ? 'var(--primary-gradient)' : 'transparent',
+              background: currentView === 'landing' ? 'rgba(37, 99, 235, 0.25)' : 'transparent',
               color: currentView === 'landing' ? '#ffffff' : 'var(--text-secondary)',
               fontSize: '0.84rem',
               fontWeight: 600,
@@ -84,11 +84,12 @@ export function Navbar({ currentView, setView, onOpenCheckout, onOpenPaymentSett
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              border: currentView === 'landing' ? '1px solid rgba(56, 189, 248, 0.4)' : '1px solid transparent'
             }}
           >
             <Globe size={15} />
-            Landing Page (Venda Virtual)
+            Início
           </button>
 
           <button
@@ -97,7 +98,7 @@ export function Navbar({ currentView, setView, onOpenCheckout, onOpenPaymentSett
               padding: '8px 18px',
               borderRadius: 'var(--radius-full)',
               border: 'none',
-              background: currentView === 'studio' ? 'var(--primary-gradient)' : 'transparent',
+              background: currentView === 'studio' ? 'rgba(37, 99, 235, 0.25)' : 'transparent',
               color: currentView === 'studio' ? '#ffffff' : 'var(--text-secondary)',
               fontSize: '0.84rem',
               fontWeight: 600,
@@ -105,11 +106,12 @@ export function Navbar({ currentView, setView, onOpenCheckout, onOpenPaymentSett
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              border: currentView === 'studio' ? '1px solid rgba(56, 189, 248, 0.4)' : '1px solid transparent'
             }}
           >
-            <Terminal size={15} />
-            Plataforma SaaS (Studio)
+            <Search size={15} />
+            Radar de Editais
           </button>
         </div>
 
@@ -126,18 +128,18 @@ export function Navbar({ currentView, setView, onOpenCheckout, onOpenPaymentSett
                 onClick={() => setView('studio')}
                 className="btn btn-secondary btn-sm"
               >
-                Ver Demo
+                Ver Demonstração
               </button>
               <button 
-                onClick={() => onOpenCheckout({ nome: 'Plano Pro Copilot', preco: '32,90', ciclo: 'anual' })}
+                onClick={() => onOpenCheckout({ nome: 'Pro Copilot (Mais Escolhido)', preco: '32,90', ciclo: 'anual' })}
                 className="btn btn-gold btn-sm"
               >
-                <Rocket size={15} /> Assinar (R$ 32,90/mês)
+                Planos & Preços
               </button>
             </>
           ) : (
             <button 
-              onClick={() => onOpenCheckout({ nome: 'Plano Pro Copilot', preco: '32,90', ciclo: 'anual' })}
+              onClick={() => onOpenCheckout({ nome: 'Pro Copilot (Mais Escolhido)', preco: '32,90', ciclo: 'anual' })}
               className="btn btn-gold btn-sm"
             >
               <Award size={15} /> Assinar Pro (R$ 32,90/mês)
