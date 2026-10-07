@@ -17,6 +17,12 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/cnpj/, ''),
         secure: false,
+      },
+      '/api/asaas': {
+        target: 'https://api.asaas.com/v3',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/asaas/, ''),
+        secure: true,
       }
     }
 

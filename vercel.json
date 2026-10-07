@@ -9,6 +9,10 @@
       "destination": "https://brasilapi.com.br/api/cnpj/v1/:path*"
     },
     {
+      "source": "/api/asaas/:path*",
+      "destination": "https://api.asaas.com/v3/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

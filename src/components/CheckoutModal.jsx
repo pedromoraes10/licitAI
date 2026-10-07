@@ -7,6 +7,7 @@ import confetti from 'canvas-confetti';
 
 import { carregarConfiguracoesPagamento } from '../services/paymentConfig';
 import { gerarPixCopiaECola, gerarQrCodeUrl } from '../services/pixGenerator';
+import { processarCobrancaCartaoAsaas } from '../services/asaasService';
 
 export function CheckoutModal({ isOpen, onClose, plano, empresaAtiva, onSuccess, onOpenSettings }) {
   // Forma de pagamento: 'pix' ou 'cartao'
@@ -145,7 +146,7 @@ export function CheckoutModal({ isOpen, onClose, plano, empresaAtiva, onSuccess,
     return 'Cartão';
   };
 
-  const confirmarPagamento = (tipo) => {
+  const confirmarPagamento = async (tipo) => {
     if (tipo === 'cartao') {
       const numLimpo = cartao.numero.replace(/\D/g, '');
       if (numLimpo.length < 13) {
@@ -160,31 +161,41 @@ export function CheckoutModal({ isOpen, onClose, plano, empresaAtiva, onSuccess,
         setErroCartao('Informe o código de segurança (CVV).');
         return;
       }
+
+      setProcessando(true);
+      setErroCartao('');
+
+      // Chama gateway de cartão do Asaas com a chave de produção oficial
+      await processarCobrancaCartaoAsaas({
+        cliente,
+        cartao,
+        valor: valorNumerico,
+        ciclo,
+        apiKey: paymentConfig.asaasApiKey
+      });
+    } else {
+      setProcessando(true);
+      setErroCartao('');
     }
 
-    setProcessando(true);
-    setErroCartao('');
+    setProcessando(false);
+    setEtapa('sucesso');
+    confetti({
+      particleCount: 130,
+      spread: 80,
+      origin: { y: 0.6 }
+    });
 
-    setTimeout(() => {
-      setProcessando(false);
-      setEtapa('sucesso');
-      confetti({
-        particleCount: 130,
-        spread: 80,
-        origin: { y: 0.6 }
-      });
-
-      if (onSuccess) {
-        setTimeout(() => {
-          onSuccess({
-            ...cliente,
-            metodo: tipo,
-            plano: plano?.nome || 'Plano Pro Copilot',
-            ciclo: ciclo
-          });
-        }, 2200);
-      }
-    }, 1200);
+    if (onSuccess) {
+      setTimeout(() => {
+        onSuccess({
+          ...cliente,
+          metodo: tipo,
+          plano: plano?.nome || 'Plano Pro Copilot',
+          ciclo: ciclo
+        });
+      }, 2000);
+    }
   };
 
   return (

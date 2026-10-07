@@ -16,7 +16,7 @@ export const CONFIG_PADRAO = {
   // Gateway para Cartão de Crédito e Conciliação
   gatewayAtivo: 'asaas', // 'asaas', 'mercadopago', 'stripe'
   
-  // Chaves de API (guardadas com segurança no cliente/backend)
+  // Chaves de API (lidas com seguranca do .env e da Vercel)
   asaasApiKey: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_ASAAS_API_KEY) || '',
   asaasAmbiente: 'producao', // 'producao' ou 'sandbox'
 
