@@ -7,17 +7,17 @@ export const CONFIG_PADRAO = {
   whatsappOficial: '+55 81 99919-7693',
   whatsappRaw: '5581999197693',
 
-  // Pix Direto na Conta Bancária do Usuário
-  chavePix: 'financeiro@licitai.com.br', // Pode ser CPF, CNPJ, E-mail, Celular ou EVP aleatório
+  // Pix Direto na Conta Bancária Oficial (Pedro Henrique de Almeida Moraes)
+  chavePix: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_PIX_CHAVE) || '49.386.560/0001-15',
   tipoChavePix: 'cnpj',
-  nomeBeneficiario: 'LICITAI PLATAFORMA SAAS',
-  cidadeBeneficiario: 'RECIFE',
+  nomeBeneficiario: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_PIX_TITULAR) || 'PEDRO HENRIQUE DE ALMEIDA MORAES',
+  cidadeBeneficiario: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_PIX_CIDADE) || 'RECIFE',
 
   // Gateway para Cartão de Crédito e Conciliação
   gatewayAtivo: 'asaas', // 'asaas', 'mercadopago', 'stripe'
   
   // Chaves de API (guardadas com segurança no cliente/backend)
-  asaasApiKey: '',
+  asaasApiKey: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_ASAAS_API_KEY) || '',
   asaasAmbiente: 'producao', // 'producao' ou 'sandbox'
 
   mercadoPagoAccessToken: '',
