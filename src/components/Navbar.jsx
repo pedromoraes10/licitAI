@@ -1,3 +1,6 @@
+import React from 'react';
+import { Sparkles, Globe, Terminal, Award, Rocket } from 'lucide-react';
+
 export function Navbar({ currentView, setView, onOpenCheckout, onOpenPaymentSettings, isSubscribed }) {
   return (
     <header style={{
