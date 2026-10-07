@@ -360,6 +360,79 @@ export function WhatsAppHub({ selectedTender, onNavigateTab, onOpenCheckout }) {
           </button>
         </div>
       </div>
+
+      {/* CENTRAL DE TESTES DO SEU WHATSAPP REAL */}
+      <div className="glass-panel" style={{
+        marginTop: '28px',
+        padding: '24px',
+        border: '1px solid rgba(34, 197, 94, 0.35)',
+        background: 'rgba(10, 20, 15, 0.45)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+          <div>
+            <h4 style={{ fontSize: '1.1rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px', color: '#fff' }}>
+              <span className="pulse-dot pulse-dot-green"></span>
+              Central de Teste: Número Oficial (+55 81 99919-7693)
+            </h4>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.84rem', marginTop: '2px' }}>
+              Como validar que seu WhatsApp está funcionando e pronto para receber clientes e disparar alertas.
+            </p>
+          </div>
+
+          <a
+            href="https://wa.me/5581999197693?text=🚨%20Teste%20LicitAI:%20Quero%20receber%20alertas%20de%20editais%20do%20meu%20CNPJ!"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-gold"
+            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}
+          >
+            <Smartphone size={16} /> Enviar Mensagem de Teste para meu WhatsApp Agora
+          </a>
+        </div>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '16px',
+          marginTop: '16px'
+        }}>
+          {/* Card 1: Como testar recebimento de clientes */}
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.02)',
+            padding: '16px',
+            borderRadius: 'var(--radius-md)',
+            border: '1px solid var(--border-subtle)'
+          }}>
+            <div style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: '8px', color: 'var(--success-light)' }}>
+              1. Teste de Entrada (Clientes Te Chamando)
+            </div>
+            <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '10px' }}>
+              Qualquer visitante que clicar no botão flutuante no site ou no link de atendimento abre uma conversa com seu número <strong>(81) 99919-7693</strong>.
+            </p>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+              💡 <strong>Como testar:</strong> Clique no botão dourado acima a partir de outro celular ou do seu WhatsApp pessoal. Seu aparelho com o chip novo tocará imediatamente!
+            </div>
+          </div>
+
+          {/* Card 2: Como testar disparos do robô */}
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.02)',
+            padding: '16px',
+            borderRadius: 'var(--radius-md)',
+            border: '1px solid var(--border-subtle)'
+          }}>
+            <div style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: '8px', color: 'var(--primary-light)' }}>
+              2. Teste de Saída (Robô Disparando Notificações)
+            </div>
+            <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '10px' }}>
+              Para os robôs mandarem mensagens automáticas às 08h da manhã para os clientes sem você precisar digitar nada, você conecta esse número a uma API (como a <strong>Z-API</strong> ou <strong>Evolution API</strong>).
+            </p>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+              💡 <strong>Como testar:</strong> Na Z-API (z-api.io), você escaneia o QR Code do seu WhatsApp e eles te dão 7 dias grátis para disparar mensagens automáticas via código!
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
