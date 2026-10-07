@@ -715,40 +715,6 @@ export function LandingPage({
             );
           })}
         </div>
-
-        {/* Painel do Dono: Configurar Onde o Dinheiro Cai */}
-        {onOpenPaymentSettings && (
-          <div style={{
-            marginTop: '36px',
-            padding: '16px 24px',
-            background: 'rgba(255, 255, 255, 0.02)',
-            borderRadius: 'var(--radius-md)',
-            border: '1px solid var(--border-subtle)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '12px'
-          }}>
-            <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fff' }}>
-                🏦 Área do Dono da Plataforma: Onde os pagamentos caem?
-              </div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                Cadastre sua Chave Pix para o dinheiro cair direto no seu banco e integre seu gateway de Cartão (Asaas / Mercado Pago).
-              </div>
-            </div>
-
-            <button
-              onClick={onOpenPaymentSettings}
-              className="btn btn-secondary btn-sm"
-              style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-            >
-              ⚙️ Configurar Minha Chave Pix & Gateway
-            </button>
-          </div>
-        )}
-
       </section>
 
       {/* FAQ */}

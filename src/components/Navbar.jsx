@@ -115,16 +115,6 @@ export function Navbar({ currentView, setView, onOpenCheckout, onOpenPaymentSett
 
         {/* Action CTAs */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          {onOpenPaymentSettings && (
-            <button
-              onClick={onOpenPaymentSettings}
-              className="btn btn-secondary btn-sm"
-              title="Configurar onde o Pix e cartão caem"
-              style={{ fontSize: '0.78rem', padding: '6px 10px' }}
-            >
-              ⚙️ Pix / Conta
-            </button>
-          )}
 
           {isSubscribed ? (
             <span className="badge badge-success" style={{ padding: '8px 14px', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '6px' }}>

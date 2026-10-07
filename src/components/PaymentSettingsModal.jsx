@@ -11,14 +11,84 @@ export function PaymentSettingsModal({ isOpen, onClose }) {
   const [salvoComSucesso, setSalvoComSucesso] = useState(false);
   const [abaAtiva, setAbaAtiva] = useState('pix'); // 'pix' ou 'cartao'
 
+  // Controle de Senha Mestra do Administrador
+  const [masterPassword, setMasterPassword] = useState(() => {
+    try {
+      return localStorage.getItem('licitai_admin_pwd') || 'admin1020';
+    } catch {
+      return 'admin1020';
+    }
+  });
+
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    try {
+      return sessionStorage.getItem('licitai_admin_logged') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const [inputPassword, setInputPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [changePwdMode, setChangePwdMode] = useState(false);
+  const [newPwdInput, setNewPwdInput] = useState('');
+  const [pwdChangedSuccess, setPwdChangedSuccess] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
       setConfig(carregarConfiguracoesPagamento());
       setSalvoComSucesso(false);
+      setPasswordError('');
+      setInputPassword('');
+      try {
+        const storedPwd = localStorage.getItem('licitai_admin_pwd') || 'admin1020';
+        setMasterPassword(storedPwd);
+        setIsAuthenticated(sessionStorage.getItem('licitai_admin_logged') === 'true');
+      } catch (err) {}
     }
   }, [isOpen]);
 
   if (!isOpen) return null;
+
+  const handleLoginAdmin = (e) => {
+    e.preventDefault();
+    if (inputPassword === masterPassword) {
+      setIsAuthenticated(true);
+      try {
+        sessionStorage.setItem('licitai_admin_logged', 'true');
+      } catch (err) {}
+      setPasswordError('');
+      setInputPassword('');
+    } else {
+      setPasswordError('Senha incorreta! Apenas o proprietário autorizado pode acessar as contas.');
+    }
+  };
+
+  const handleLogoutAdmin = () => {
+    setIsAuthenticated(false);
+    try {
+      sessionStorage.removeItem('licitai_admin_logged');
+    } catch (err) {}
+  };
+
+  const handleSalvarNovaSenha = (e) => {
+    e.preventDefault();
+    if (newPwdInput.trim().length < 4) {
+      alert('A nova senha deve ter no mínimo 4 caracteres.');
+      return;
+    }
+    const nova = newPwdInput.trim();
+    setMasterPassword(nova);
+    try {
+      localStorage.setItem('licitai_admin_pwd', nova);
+    } catch (err) {}
+    setPwdChangedSuccess(true);
+    setNewPwdInput('');
+    setTimeout(() => {
+      setPwdChangedSuccess(false);
+      setChangePwdMode(false);
+    }, 2000);
+  };
 
   const handleSalvar = (e) => {
     e.preventDefault();
@@ -42,8 +112,8 @@ export function PaymentSettingsModal({ isOpen, onClose }) {
     <div style={{
       position: 'fixed',
       inset: 0,
-      backgroundColor: 'rgba(5, 8, 16, 0.92)',
-      backdropFilter: 'blur(16px)',
+      backgroundColor: 'rgba(5, 8, 16, 0.94)',
+      backdropFilter: 'blur(20px)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -55,8 +125,8 @@ export function PaymentSettingsModal({ isOpen, onClose }) {
         width: '100%',
         padding: '32px',
         position: 'relative',
-        border: '1px solid rgba(56, 189, 248, 0.4)',
-        boxShadow: '0 25px 70px rgba(0, 0, 0, 0.9)',
+        border: '1px solid rgba(245, 158, 11, 0.4)',
+        boxShadow: '0 25px 70px rgba(0, 0, 0, 0.95)',
         maxHeight: '92vh',
         overflowY: 'auto'
       }}>
@@ -77,24 +147,193 @@ export function PaymentSettingsModal({ isOpen, onClose }) {
           <X size={22} />
         </button>
 
-        {/* Header */}
-        <div style={{ marginBottom: '24px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-            <span className="badge badge-success">
-              <Building size={13} /> Configuração de Recebimentos
-            </span>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              100% do dinheiro vai direto para você
-            </span>
-          </div>
+        {!isAuthenticated ? (
+          /* TELA DE BLOQUEIO POR SENHA */
+          <div style={{ textAlign: 'center', padding: '24px 10px' }}>
+            <div style={{
+              width: '64px',
+              height: '64px',
+              borderRadius: '50%',
+              background: 'rgba(239, 68, 68, 0.15)',
+              border: '1px solid rgba(239, 68, 68, 0.4)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#f87171',
+              marginBottom: '18px'
+            }}>
+              <Lock size={32} />
+            </div>
 
-          <h2 style={{ fontSize: '1.6rem', fontWeight: 800 }}>
-            Como os Pagamentos Caem na Sua Conta
-          </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', marginTop: '4px' }}>
-            Configure onde receber o <strong>Pix instantâneo</strong> e a chave do gateway de <strong>Cartão de Crédito</strong>.
-          </p>
-        </div>
+            <div style={{ marginBottom: '10px' }}>
+              <span className="badge badge-purple" style={{ fontSize: '0.8rem', padding: '5px 12px' }}>
+                Acesso Restrito ao Proprietário
+              </span>
+            </div>
+
+            <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
+              Área Administrativa de Recebimentos
+            </h2>
+
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '460px', margin: '0 auto 24px', lineHeight: 1.5 }}>
+              Esta seção gerencia para onde vai o dinheiro das vendas (sua Chave Pix e chaves do Asaas). Digite sua senha de administrador para acessar.
+            </p>
+
+            <form onSubmit={handleLoginAdmin} style={{ maxWidth: '380px', margin: '0 auto' }}>
+              <div style={{ marginBottom: '14px' }}>
+                <input
+                  type="password"
+                  placeholder="Digite a Senha Mestra (Padrão: admin1020)"
+                  value={inputPassword}
+                  onChange={(e) => {
+                    setInputPassword(e.target.value);
+                    setPasswordError('');
+                  }}
+                  autoFocus
+                  style={{
+                    width: '100%',
+                    padding: '14px 16px',
+                    borderRadius: 'var(--radius-md)',
+                    background: 'rgba(0, 0, 0, 0.6)',
+                    border: passwordError ? '1px solid #ef4444' : '1px solid var(--border-subtle)',
+                    color: '#fff',
+                    fontSize: '0.95rem',
+                    textAlign: 'center',
+                    outline: 'none',
+                    letterSpacing: '0.08em'
+                  }}
+                />
+                {passwordError && (
+                  <div style={{ color: '#f87171', fontSize: '0.82rem', marginTop: '8px', textAlign: 'center' }}>
+                    ⚠️ {passwordError}
+                  </div>
+                )}
+              </div>
+
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="btn btn-secondary"
+                  style={{ flex: 1, padding: '12px' }}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-gold"
+                  style={{ flex: 1, padding: '12px', fontWeight: 800 }}
+                >
+                  Desbloquear 🔓
+                </button>
+              </div>
+
+              <div style={{ marginTop: '16px', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                🔑 Senha mestra inicial: <code style={{ color: 'var(--accent-gold-light)' }}>admin1020</code> (você poderá alterá-la após entrar).
+              </div>
+            </form>
+          </div>
+        ) : (
+          /* CONTEÚDO AUTENTICADO DO ADMINISTRADOR */
+          <div>
+            {/* Barra de Status do Administrador */}
+            <div style={{
+              background: 'rgba(16, 185, 129, 0.1)',
+              border: '1px solid rgba(16, 185, 129, 0.3)',
+              borderRadius: 'var(--radius-md)',
+              padding: '10px 16px',
+              marginBottom: '20px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '10px'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: 'var(--success-light)', fontWeight: 600 }}>
+                <CheckCircle2 size={16} /> Sessão de Administrador Autenticada
+              </div>
+
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  type="button"
+                  onClick={() => setChangePwdMode(!changePwdMode)}
+                  className="btn btn-secondary btn-sm"
+                  style={{ fontSize: '0.75rem', padding: '5px 10px' }}
+                >
+                  🔑 Alterar Senha
+                </button>
+                <button
+                  type="button"
+                  onClick={handleLogoutAdmin}
+                  className="btn btn-secondary btn-sm"
+                  style={{ fontSize: '0.75rem', padding: '5px 10px', color: '#f87171' }}
+                >
+                  🔒 Bloquear
+                </button>
+              </div>
+            </div>
+
+            {/* Painel de Alteração de Senha Mestra */}
+            {changePwdMode && (
+              <form onSubmit={handleSalvarNovaSenha} style={{
+                background: 'rgba(0, 0, 0, 0.4)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: 'var(--radius-md)',
+                padding: '16px',
+                marginBottom: '20px'
+              }}>
+                <div style={{ fontSize: '0.86rem', fontWeight: 700, marginBottom: '8px' }}>
+                  Definir Nova Senha Mestra de Administrador:
+                </div>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <input
+                    type="password"
+                    placeholder="Nova senha secreta..."
+                    value={newPwdInput}
+                    onChange={(e) => setNewPwdInput(e.target.value)}
+                    style={{
+                      flex: 1,
+                      padding: '8px 12px',
+                      background: 'rgba(0,0,0,0.5)',
+                      border: '1px solid var(--border-subtle)',
+                      borderRadius: 'var(--radius-sm)',
+                      color: '#fff',
+                      fontSize: '0.86rem'
+                    }}
+                  />
+                  <button type="submit" className="btn btn-gold btn-sm">
+                    Salvar Senha
+                  </button>
+                  <button type="button" onClick={() => setChangePwdMode(false)} className="btn btn-secondary btn-sm">
+                    Cancelar
+                  </button>
+                </div>
+                {pwdChangedSuccess && (
+                  <div style={{ color: 'var(--success-light)', fontSize: '0.8rem', marginTop: '6px' }}>
+                    ✅ Senha mestra alterada com sucesso!
+                  </div>
+                )}
+              </form>
+            )}
+
+            {/* Header */}
+            <div style={{ marginBottom: '24px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                <span className="badge badge-success">
+                  <Building size={13} /> Configuração de Recebimentos
+                </span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                  100% do dinheiro vai direto para sua conta
+                </span>
+              </div>
+
+              <h2 style={{ fontSize: '1.6rem', fontWeight: 800 }}>
+                Como os Pagamentos Caem na Sua Conta
+              </h2>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', marginTop: '4px' }}>
+                Configure onde receber o <strong>Pix instantâneo</strong> e a chave do gateway de <strong>Cartão de Crédito</strong>.
+              </p>
+            </div>
 
         {/* Abas */}
         <div style={{
@@ -552,6 +791,8 @@ export function PaymentSettingsModal({ isOpen, onClose }) {
           </div>
         </form>
       </div>
-    </div>
-  );
+    )}
+  </div>
+</div>
+);
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { LandingPage } from './components/LandingPage';
 import { StudioApp } from './components/StudioApp';
@@ -13,6 +13,23 @@ export function App() {
   const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
   const [paymentSettingsModalOpen, setPaymentSettingsModalOpen] = useState(false);
   const [planoCheckout, setPlanoCheckout] = useState(null);
+
+  // Atalho de teclado para o Dono da Plataforma (Ctrl+Shift+P ou Cmd+Shift+P ou URL #admin)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'P' || e.key === 'p' || e.key === 'A' || e.key === 'a')) {
+        e.preventDefault();
+        setPaymentSettingsModalOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    if (window.location.hash === '#admin' || window.location.search.includes('admin=')) {
+      setPaymentSettingsModalOpen(true);
+    }
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Controle de Assinatura (Travado para não pagantes)
   const [isSubscribed, setIsSubscribed] = useState(() => {
@@ -125,16 +142,17 @@ export function App() {
             <span style={{ cursor: 'pointer' }} onClick={() => setCurrentView('landing')}>Início</span>
             <span style={{ cursor: 'pointer' }} onClick={() => setCurrentView('studio')}>Plataforma Studio</span>
             <span style={{ cursor: 'pointer' }} onClick={() => handleOpenCheckout()}>Planos e Preços</span>
-            <span 
-              style={{ cursor: 'pointer', color: 'var(--accent-gold-light)', fontWeight: 600 }} 
-              onClick={() => setPaymentSettingsModalOpen(true)}
-            >
-              ⚙️ Onde Cai o Dinheiro (Pix & Cartão)
-            </span>
           </div>
 
-          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-            © {new Date().getFullYear()} LicitAI Tecnologia Ltda. Todos os direitos reservados.
+          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span>© {new Date().getFullYear()} LicitAI Tecnologia Ltda. Todos os direitos reservados.</span>
+            <span 
+              onClick={() => setPaymentSettingsModalOpen(true)}
+              title="Acesso Administrativo do Proprietário (Requer Senha Mestra)" 
+              style={{ cursor: 'pointer', opacity: 0.25, fontSize: '0.72rem', marginLeft: '4px' }}
+            >
+              🔒 Admin
+            </span>
           </div>
         </div>
       </footer>
