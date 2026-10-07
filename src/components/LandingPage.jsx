@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Sparkles, Zap, Shield, TrendingUp, CheckCircle2, ArrowRight, 
   Search, AlertTriangle, FileText, Bot, DollarSign, Clock, MessageSquare, 
-  HelpCircle, ChevronDown, Check, X, ShieldAlert, Award
+  HelpCircle, ChevronDown, Check, X, ShieldAlert, Award, ShieldCheck
 } from 'lucide-react';
 import { FEATURED_TENDERS } from '../services/mockTenders';
 import { CnpjScanner } from './CnpjScanner';
@@ -36,16 +36,18 @@ export function LandingPage({
   const planos = [
     {
       id: 'start',
-      nome: 'Start (Dispensas & ME/EPP)',
+      nome: 'Start (Dispensas • MEI, ME & EPP)',
       precoMensal: '29,90',
       precoAnual: '19,90',
       totalAnual: '238,80',
       economia: 'Economize 33% no plano anual (R$ 120/ano OFF)',
       periodo: '/mês',
-      descricao: 'Perfeito para MEI e pequenas empresas que querem começar a vender para o governo em compras diretas rápidas de até R$ 120 mil.',
+      descricao: 'Perfeito para MEI, ME e EPP que querem aproveitar seu tratamento diferenciado em relação a grandes empresas e começar a contratar com o governo em compras diretas rápidas de até R$ 120 mil.',
       destaque: false,
       recursos: [
-        'Monitoramento de Dispensas Eletrônicas em todo o Brasil',
+        'Como critério de desempate, MEI, ME e EPP têm preferência legal na contratação',
+        'Monitoramento de Dispensas Eletrônicas em todo o Brasil (até R$ 120 mil)',
+        'Cota Reservada & Exclusiva de itens para MEI, ME e EPP (LC 123/06)',
         '1 nicho de atuação e palavras-chave configuradas',
         'Raio-X de editais com semáforo de habilitação',
         'Alertas diários matinais no WhatsApp e e-mail',
@@ -61,7 +63,7 @@ export function LandingPage({
       totalAnual: '394,80',
       economia: 'Economize 34% no plano anual (R$ 204/ano OFF)',
       periodo: '/mês',
-      descricao: 'O motor neural completo para PMEs vencerem concorrências públicas e pregões eletrônicos com inteligência artificial.',
+      descricao: 'O motor neural completo para PMEs vencerem concorrências públicas e pregões eletrônicos de qualquer porte com inteligência artificial.',
       destaque: true,
       badge: 'MAIS ESCOLHIDO • 34% OFF NO ANUAL',
       recursos: [
@@ -80,6 +82,10 @@ export function LandingPage({
 
 
   const faqs = [
+    {
+      q: "Como funciona a preferência legal e o tratamento diferenciado para MEI, ME e EPP?",
+      a: "Pela Lei Complementar nº 123/2006 e pela Nova Lei nº 14.133/2021, o governo é obrigado a dar tratamento favorecido para MEI, Microempresa (ME) e Empresa de Pequeno Porte (EPP). Isso inclui: (1) Preferência legal de contratação em caso de empate ficto com grandes empresas (oferta de lance final para cobrir a grande empresa); (2) Licitações de até R$ 80.000 exclusivas para ME/EPP; (3) Compras diretas e dispensas eletrônicas rápidas de até R$ 120.000; e (4) Prazo de 5 dias úteis para sanar pendências fiscais após vencer. O LicitAI destaca e filtra essas oportunidades exclusivas automaticamente!"
+    },
     {
       q: "Preciso ter conhecimento jurídico para usar o LicitAI?",
       a: "Não! Esse é exatamente o maior diferencial do LicitAI. A inteligência artificial traduz o 'juridiquês' dos editais para uma linguagem empresarial simples e direta. Ela mostra exatamente quais certidões você precisa emitir, se há risco de multa abusiva e se a licitação vale a pena financeiramente para o seu porte."
@@ -605,6 +611,41 @@ export function LandingPage({
               2 MESES GRÁTIS 🔥
             </span>
           </button>
+        </div>
+
+        {/* Banner de Destaque Estratégico: MEI, ME e EPP */}
+        <div style={{
+          maxWidth: '860px',
+          margin: '0 auto 36px',
+          padding: '16px 22px',
+          background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%)',
+          border: '1px solid rgba(56, 189, 248, 0.25)',
+          borderRadius: 'var(--radius-md)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '16px',
+          textAlign: 'left'
+        }}>
+          <div style={{
+            background: 'rgba(56, 189, 248, 0.15)',
+            padding: '10px',
+            borderRadius: 'var(--radius-full)',
+            color: 'var(--primary-light)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0
+          }}>
+            <ShieldCheck size={26} />
+          </div>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: '0.96rem', color: '#fff', marginBottom: '2px' }}>
+              Vantagem Legal Obrigatória (LC 123/06 & Lei 14.133/21)
+            </div>
+            <div style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.45' }}>
+              <strong>Como critério de desempate, MEI, ME e EPP têm preferência por lei na contratação</strong> frente a grandes corporações, além de disputas exclusivas de até R$ 80 mil e compras diretas de até R$ 120 mil. O LicitAI foi desenhado para você explorar essa vantagem ao máximo!
+            </div>
+          </div>
         </div>
 
         <div style={{
