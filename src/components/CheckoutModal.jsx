@@ -77,9 +77,8 @@ export function CheckoutModal({ isOpen, onClose, plano, empresaAtiva, onSuccess,
   if (!isOpen) return null;
 
   const isStart = plano?.id === 'start' || plano?.nome?.includes('Start');
-  const isEnterprise = plano?.id === 'enterprise' || plano?.nome?.includes('Enterprise');
   
-  // Preços solicitados: Mensal 49,90 | Anual 32,90 (Total 394,80)
+  // Preços oficiais: Start 29,90 (ou 19,90/mês no anual) | Pro Copilot 49,90 (ou 32,90/mês no anual)
   let valorMensal = '49,90';
   let valorAnualMensal = '32,90';
   let totalAnual = '394,80';
@@ -92,12 +91,6 @@ export function CheckoutModal({ isOpen, onClose, plano, empresaAtiva, onSuccess,
     totalAnual = '238,80';
     valorNumerico = ciclo === 'anual' ? 238.80 : 29.90;
     economia = 'Economize 33% no Plano Anual';
-  } else if (isEnterprise) {
-    valorMensal = '99,90';
-    valorAnualMensal = '69,90';
-    totalAnual = '838,80';
-    valorNumerico = ciclo === 'anual' ? 838.80 : 99.90;
-    economia = 'Economize 30% no Plano Anual';
   }
 
   const precoExibido = ciclo === 'anual' ? valorAnualMensal : valorMensal;

@@ -75,25 +75,6 @@ export function LandingPage({
         'Simulador de Margem Líquida & Trava de Stop-Loss',
         'WhatsApp 2-Way Autônomo com envio diário matinal'
       ]
-    },
-    {
-      id: 'enterprise',
-      nome: 'Enterprise & Consultoria',
-      precoMensal: '99,90',
-      precoAnual: '69,90',
-      totalAnual: '838,80',
-      economia: 'Economize 30% no plano anual (R$ 360/ano OFF)',
-      periodo: '/mês',
-      descricao: 'Para assessorias de licitação, escritórios jurídicos e empresas com múltiplos CNPJs disputando contratos de grande porte.',
-      destaque: false,
-      recursos: [
-        'Tudo do Plano Pro Copilot incluído',
-        'Múltiplos CNPJs e filiais ilimitadas na mesma conta',
-        'Radar de Concorrentes (histórico de lances e vitórias)',
-        'Exportação de Dossiê Executivo completo em PDF e Word',
-        'Canal de WhatsApp exclusivo com analista sênior',
-        'Acesso prioritário à API do LicitAI'
-      ]
     }
   ];
 
@@ -630,6 +611,8 @@ export function LandingPage({
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
           gap: '28px',
+          maxWidth: '860px',
+          margin: '0 auto',
           alignItems: 'stretch'
         }}>
           {planos.map((plano) => {
